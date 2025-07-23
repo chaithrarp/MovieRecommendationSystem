@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = '/api';
 
 // TMDB Configuration
 const TMDB_API_KEY = 'bed3c0900197c6e79571bffc27d8c501'; // Get from https://www.themoviedb.org/settings/api
