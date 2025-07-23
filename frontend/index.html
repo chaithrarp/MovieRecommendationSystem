@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 Movie Recommender</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                <h1>MovieFinder</h1>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn active" data-section="home">Home</button>
+                <button class="nav-btn" data-section="preferences">Preferences</button>
+                <button class="nav-btn" data-section="search">Search</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Home Section -->
+            <section id="home" class="section active">
+                <div class="hero">
+                    <h2>Discover Your Next Favorite Movie</h2>
+                    <p>Get personalized movie recommendations based on your taste</p>
+                    <button class="cta-btn" onclick="showSection('preferences')">
+                        <i class="fas fa-magic"></i>
+                        Get Recommendations
+                    </button>
+                </div>
+
+                <!-- Trending Movies -->
+                <div class="trending-section">
+                    <h3><i class="fas fa-fire"></i> Trending Now</h3>
+                    <div id="trending-movies" class="movies-grid">
+                        <div class="loading">Loading trending movies...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Preferences Section -->
+            <section id="preferences" class="section">
+                <div class="preferences-container">
+                    <h2><i class="fas fa-sliders-h"></i> Set Your Preferences</h2>
+                    <form id="preferences-form" class="preferences-form">
+                        <!-- Age Group -->
+                        <div class="form-group">
+                            <label>Age Group</label>
+                            <div class="radio-group">
+                                <input type="radio" id="family" name="age_group" value="family">
+                                <label for="family">Family Friendly</label>
+                                <input type="radio" id="teen" name="age_group" value="teen" checked>
+                                <label for="teen">Teen+</label>
+                                <input type="radio" id="adult" name="age_group" value="adult">
+                                <label for="adult">Adult</label>
+                            </div>
+                        </div>
+
+                        <!-- Genres -->
+                        <div class="form-group">
+                            <label>Favorite Genres</label>
+                            <div id="genres-container" class="tags-container">
+                                <div class="loading">Loading genres...</div>
+                            </div>
+                        </div>
+
+                        <!-- Actors -->
+                        <div class="form-group">
+                            <label>Favorite Actors</label>
+                            <input type="text" id="actor-search" placeholder="Search for actors..." class="search-input">
+                            <div id="actor-suggestions" class="suggestions"></div>
+                            <div id="selected-actors" class="selected-tags"></div>
+                        </div>
+
+                        <!-- Rating -->
+                        <div class="form-group">
+                            <label>Minimum Rating</label>
+                            <div class="slider-container">
+                                <input type="range" id="min-rating" min="0" max="10" step="0.5" value="6">
+                                <span id="rating-value">6.0</span> ⭐
+                            </div>
+                        </div>
+
+                        <!-- Year -->
+                        <div class="form-group">
+                            <label>Movies From Year</label>
+                            <div class="slider-container">
+                                <input type="range" id="min-year" min="1980" max="2024" value="2000">
+                                <span id="year-value">2000</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-search"></i>
+                            Find My Movies
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Recommendations Results -->
+                <div id="recommendations-section" class="recommendations-section" style="display: none;">
+                    <h3><i class="fas fa-star"></i> Your Recommendations</h3>
+                    <div id="recommendations" class="movies-grid"></div>
+                </div>
+            </section>
+
+            <!-- Search Section -->
+            <section id="search" class="section">
+                <div class="search-container">
+                    <h2><i class="fas fa-search"></i> Search Movies</h2>
+                    <div class="search-bar">
+                        <input type="text" id="movie-search" placeholder="Search for movies..." class="search-input">
+                        <button id="search-btn" class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div id="search-results" class="movies-grid"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Movie Modal -->
+    <div id="movie-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="movie-details"></div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p>Finding your perfect movies...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
