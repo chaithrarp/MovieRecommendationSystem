@@ -11,10 +11,19 @@ import os
 from datetime import datetime
 import json
 import random
+import os
+from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask_cors import CORS
+# ... your other imports
+
+# Configuration for deployment
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
+DATA_DIR = os.path.join(BASE_DIR, 'data')
 
 app = Flask(__name__, 
-            template_folder='../frontend',  # Point to frontend folder
-            static_folder='../frontend')    # Serve CSS/JS from frontend folder
+            template_folder=FRONTEND_DIR,
+            static_folder=FRONTEND_DIR)
 CORS(app)
 
 # Global variables for our datasets and models
