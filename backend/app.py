@@ -50,16 +50,16 @@ def load_and_preprocess_data():
     print("Loading TMDb dataset...")
     
     # Try different possible paths for the dataset
+     # Get the directory where this script is located
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    DATA_DIR = os.path.join(BASE_DIR, 'data')
+        
     possible_paths = [
-        ('movies_metadata.csv', 'credits.csv'),  # Current directory
-        ('data/movies_metadata.csv', 'data/credits.csv'),  # data folder
-        ('../data/movies_metadata.csv', '../data/credits.csv'),  # parent data folder
-        ('backend/movies_metadata.csv', 'backend/credits.csv'),  # backend folder
-        ('dataset/movies_metadata.csv', 'dataset/credits.csv'),  # dataset folder
-    ]
+            (os.path.join(DATA_DIR, 'movies_metadata.csv'), os.path.join(DATA_DIR, 'credits.csv')),
+            ('data/movies_metadata.csv', 'data/credits.csv'),  # fallback
+             ('movies_metadata.csv', 'credits.csv'),  # fallback
+        ]
     
-    movies_loaded = False
-    credits_loaded = False
     
     for movies_path, credits_path in possible_paths:
         try:
@@ -510,6 +510,26 @@ def get_stats():
         })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+@app.route('/api/debug')
+def debug_info():
+    """Debug endpoint to see what's happening"""
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    DATA_DIR = os.path.join(BASE_DIR, 'data')
+    
+    return jsonify({
+        'movies_loaded': movies_df is not None,
+        'total_movies': len(movies_df) if movies_df is not None else 0,
+        'sample_titles': movies_df['title'].head(5).tolist() if movies_df is not None else [],
+        'base_directory': BASE_DIR,
+        'data_directory': DATA_DIR,
+        'data_folder_exists': os.path.exists(DATA_DIR),
+        'files_in_data_folder': os.listdir(DATA_DIR) if os.path.exists(DATA_DIR) else [],
+        'csv_files_found': {
+            'movies_metadata.csv': os.path.exists(os.path.join(DATA_DIR, 'movies_metadata.csv')),
+            'credits.csv': os.path.exists(os.path.join(DATA_DIR, 'credits.csv'))
+        }
+    })
+
 
 if __name__ == '__main__':
     print("Starting Movie Recommender System...")
